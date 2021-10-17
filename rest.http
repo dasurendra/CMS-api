@@ -1,0 +1,56 @@
+### user Api List
+
+### create user
+POST http://localhost:8000/api/v1/user
+Content-Type: application/json
+
+{
+  
+"fname" : "Surendra",
+"lname" : "KC", 
+"dob": "2021-10-10", 
+"email": "tesst2@a.com",
+"password": "12345s", 
+"phone": "0411111111", 
+"address": "10 George st, Sdyeny, 2000", 
+"gender": "male" 
+
+
+}
+
+### user email verification
+POST http://localhost:8000/api/v1/user/email-verification
+Content-Type: application/json
+
+{
+    "otp":"04330580",
+    "email":"tesst2@a.com"
+}
+
+
+
+###Category API List
+
+### find category
+GET http://localhost:8000/api/v1/category
+
+### create category
+POST http://localhost:8000/api/v1/category
+Content-Type: application/json
+
+{
+    "name":"Home wdassre",
+    "parentCat":null
+}
+
+###update the category
+PATCH http://localhost:8000/api/v1/category/616bfa868c18047b3f44ecf9
+Content-Type: application/json
+
+{
+  "name":"Kitchen Ware",
+  "parentCat":"kitchen"
+}
+
+### delete category
+DELETE http://localhost:8000/api/v1/category/616bb18adde7f495fa1cb92d
