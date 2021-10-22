@@ -1,12 +1,16 @@
 import express from 'express'
 import slugify from 'slugify'
-import { categoryValidator } from '../middleware/user.validator.js'
+import {
+  categoryValidator,
+  validatorEdit,
+} from '../middleware/user.validator.js'
 const router = express.Router()
 import {
   createCategory,
   deleteCategory,
   updateCategory,
   getCategory,
+  editcategory,
 } from '../Category-Model/Category.model.js'
 
 router.all('/', (req, res, next) => {
@@ -40,7 +44,7 @@ router.post('/', categoryValidator, async (req, res) => {
     const newCat = {
       name,
       slug,
-      parentCat,
+      parentCat: parentCat ? parentCat : null,
     }
 
     const result = await createCategory(newCat)
@@ -62,9 +66,36 @@ router.post('/', categoryValidator, async (req, res) => {
     if (error.message.includes('E11000 duplicate key error collection')) {
       msg = 'This Category already exists '
     }
-    res.status(500).json({
+    res.json({
       staus: 'error',
       message: msg,
+    })
+  }
+})
+
+//update category
+
+router.patch('/', validatorEdit, async (req, res) => {
+  try {
+    const { parentCat } = req.body
+
+    req.body.parentCat = parentCat ? parentCat : null
+    const result = await editcategory(req.body)
+    if (result?._id) {
+      return res.json({
+        status: 'success',
+        message: 'The category has been updated',
+      })
+    }
+    res.json({
+      status: 'error',
+      message: 'Unable to update this time',
+    })
+  } catch (error) {
+    console.log(error.message)
+    res.json({
+      status: 'error',
+      message: 'Error, Unable to process your request please try again later',
     })
   }
 })
@@ -75,7 +106,7 @@ router.delete('/:_id', async (req, res) => {
   try {
     const { _id } = req.params
     if (_id) {
-      const result = await deleteCategory(req.body)
+      const result = await deleteCategory(_id)
 
       if (result?._id) {
         return res.json({
@@ -84,35 +115,15 @@ router.delete('/:_id', async (req, res) => {
         })
       }
     }
+    res.json({
+      status: 'error',
+      message: 'Unable to delete the category, please try again later',
+    })
   } catch (error) {
     console.log(error)
     res.json({
       status: 'error',
       message: 'Unable to delete the category this time',
-    })
-  }
-})
-
-//update the category
-
-router.patch('/:_id', async (req, res) => {
-  try {
-    const { _id } = req.body
-
-    if (_id) {
-      const result = await updateCategory(req.body)
-      if (result?._id) {
-        return res.json({
-          status: 'success',
-          message: 'It has been updated',
-        })
-      }
-    }
-  } catch (error) {
-    console.log(error)
-    res.json({
-      status: 'error',
-      message: 'Sorry,unable to update',
     })
   }
 })

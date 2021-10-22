@@ -39,18 +39,29 @@ POST http://localhost:8000/api/v1/category
 Content-Type: application/json
 
 {
-    "name":"Home wdassre",
+    "name":"Home wdasssre",
     "parentCat":null
 }
 
 ###update the category
-PATCH http://localhost:8000/api/v1/category/616bfa868c18047b3f44ecf9
+PATCH http://localhost:8000/api/v1/category/616e010445cf925f31f446f0
 Content-Type: application/json
 
 {
-  "name":"Kitchen Ware",
-  "parentCat":"kitchen"
+  "name":"Kitchen Wdfdsdsfare",
+  "parentCat":"kitcdsdfdshen"
 }
 
+### update category
+PATCH http://localhost:8000/api/v1/category
+Content-Type: application/json
+
+{
+  "_id":"6171e98805a12509bc643110",
+  "name":"Assr",
+  "parentCat":""
+}
+
+
 ### delete category
-DELETE http://localhost:8000/api/v1/category/616bb18adde7f495fa1cb92d
+DELETE http://localhost:8000/api/v1/category/6171e96d05a12509bc643109

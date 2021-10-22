@@ -49,7 +49,28 @@ export const userValidaion = (req, res, next) => {
 export const categoryValidator = (req, res, next) => {
   const schema = Joi.object({
     name: str.required(),
-    parentCar: str.allow('').allow(null),
+    parentCat: str.allow('').allow(null),
   })
+  const result = schema.validate(req.body)
+  if (result.error) {
+    return res.json({ status: 'error', message: result.error.message })
+  }
+  next()
+}
+
+export const validatorEdit = (req, res, next) => {
+  const schema = Joi.object({
+    _id: shortStr,
+    name: str.required(),
+    parentCat: str.allow('').allow(null),
+  })
+  const result = schema.validate(req.body)
+
+  if (result.error) {
+    return res.json({
+      status: 'error',
+      message: result.error.message,
+    })
+  }
   next()
 }
