@@ -1,11 +1,16 @@
 import express from 'express'
 
-import { createUser, userActive } from '../Usermodel/user.model.js'
+import {
+  createUser,
+  userActive,
+  getUserByEmail,
+} from '../Usermodel/user.model.js'
 import {
   newUserFormValidation,
   userValidaion,
+  adminLoginValidation,
 } from '../middleware/user.validator.js'
-import { hashPassword } from '../../src/helper/bcrypt.helper.js'
+import { hashPassword, verifyPassowrd } from '../../src/helper/bcrypt.helper.js'
 import { getRandomOtp } from '../helper/otpgenrator.js'
 import {
   createUniqueReset,
@@ -13,7 +18,7 @@ import {
   deleteUniuquePin,
 } from '../Resetpin/Reset.model.js'
 import { emailProcessor, emailVerification } from '../helper/mailhelper.js'
-
+import { getJwt } from '../helper/jwt.helper.js'
 const router = express.Router()
 
 router.all('/', (req, res, next) => {
@@ -78,6 +83,38 @@ router.post('/email-verification', userValidaion, async (req, res) => {
     })
   } catch (error) {
     console.log(error)
+  }
+})
+
+router.post('/login', adminLoginValidation, async (req, res) => {
+  try {
+    const { email, password } = req.body
+    //1 find user by email
+    const user = await getUserByEmail(email)
+    if (user?._id) {
+      const isPassMatched = verifyPassowrd(password, user.password)
+
+      if (isPassMatched) {
+        user.password = undefined
+        const tokens = await getJwt({ _id: user._id, email })
+        return res.json({
+          status: 'success',
+          message: ' login SuccesFull',
+          user,
+          tokens,
+        })
+      }
+    }
+    res.json({
+      status: 'error',
+      message: 'Email or paswword didnt match ,Try Again Later',
+    })
+  } catch (error) {
+    console.log(error)
+    res.json({
+      status: 'error',
+      message: 'Error,unable to login now',
+    })
   }
 })
 

@@ -74,3 +74,16 @@ export const validatorEdit = (req, res, next) => {
   }
   next()
 }
+
+export const adminLoginValidation = (req, res, next) => {
+  const schema = Joi.object({
+    email: email.required(),
+    password: Joi.string().min(6).max(50).required(),
+  })
+  const result = schema.validate(req.body)
+
+  if (result.error) {
+    res.json({ status: 'error', message: result.error.message })
+  }
+  next()
+}

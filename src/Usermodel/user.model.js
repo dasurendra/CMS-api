@@ -1,3 +1,4 @@
+import userSchema from './userSchema.js'
 import UserSchema from './userSchema.js'
 
 export const createUser = async (newUser) => {
@@ -10,4 +11,14 @@ export const userActive = async (email) => {
     { status: 'active', isEmailConfirm: true },
     { new: true }
   )
+}
+
+export const getUserByEmail = (email) => {
+  return UserSchema.findOne({ email })
+}
+
+export const setRefreshJWt = async (_id, refreshJWT) => {
+  return await userSchema.findByIdAndUpdate(_id, {
+    refreshJWT,
+  })
 }

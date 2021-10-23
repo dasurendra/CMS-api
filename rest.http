@@ -63,5 +63,15 @@ Content-Type: application/json
 }
 
 
+###log in
+POST http://localhost:8000/api/v1/user/login
+Content-Type: application/json
+
+{
+  "email":"tesst2@a.com",
+  "password":"12345s"
+}
+
+
 ### delete category
 DELETE http://localhost:8000/api/v1/category/6171e96d05a12509bc643109
