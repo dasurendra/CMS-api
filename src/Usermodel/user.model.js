@@ -22,3 +22,7 @@ export const setRefreshJWt = async (_id, refreshJWT) => {
     refreshJWT,
   })
 }
+
+export const getUser = (filter) => {
+  return userSchema.findOne(filter)
+}

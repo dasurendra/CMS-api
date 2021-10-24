@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken'
 import { createAccessSession } from '../sessionModel/session.model.js'
 import { setRefreshJWt } from '../Usermodel/user.model.js'
-const createAccesstJwt = async ({ _id, email }) => {
+
+export const createAccesstJwt = async ({ _id, email }) => {
   const token = jwt.sign({ email }, process.env.JWT_ACCESS_JWT, {
     expiresIn: `15m`,
   })
@@ -28,6 +29,13 @@ const refreshAccessJwt = async ({ _id, email }) => {
   return false
 }
 
+export const verifyRefreshJWT = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_REFRESH_JWT)
+  } catch (error) {
+    return false
+  }
+}
 export const getJwt = async (userInfo) => {
   const accessJwt = await createAccesstJwt(userInfo)
   const refreshJwt = await refreshAccessJwt(userInfo)

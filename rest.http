@@ -72,6 +72,10 @@ Content-Type: application/json
   "password":"12345s"
 }
 
+###token Api
+GET http://localhost:8000/api/v1/token
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3N0MkBhLmNvbSIsImlhdCI6MTYzNDk5Mjg3OCwiZXhwIjoxNjM3NTg0ODc4fQ.JqhRykXdhDiNS1ckH5DbWKzXUw-R5tYH3dgS9Jzojzc
+
 
 ### delete category
 DELETE http://localhost:8000/api/v1/category/6171e96d05a12509bc643109

@@ -25,9 +25,11 @@ app.use(express.json())
 //router
 import router from './src/userRouter/router.js'
 import categoryRouter from '../backend/src/Category-router/categorRouter.js'
+import tokenRouter from '../backend/src/Token-Router/TokenRouter.js'
 
 app.use('/api/v1/user', router)
 app.use('/api/v1/category', categoryRouter)
+app.use('/api/v1/token', tokenRouter)
 
 app.use('/', (req, res) => {
   res.send('you have reach the ned of the  router list')
